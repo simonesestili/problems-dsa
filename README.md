@@ -1,3 +1,3 @@
 DSA Problems
 
-Leetcode and codewars problems
+Leetcode and Codewars problems solved with Python3
