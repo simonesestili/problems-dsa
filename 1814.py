@@ -7,7 +7,7 @@ class Solution:
             if diff in seen:
                 total += seen[diff]
             seen[diff] = seen.get(diff, 0) + 1
-        return total % (1e9 + 7)
+        return int(total % (1e9 + 7))
 
     def rev(self, n):
         return int(str(n)[-1::-1])
