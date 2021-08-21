@@ -1,3 +1,3 @@
 DSA Problems
 
-Leetcode and Codewars problems solved with Python3
+Data Structures and Algorithms Problems from leetcode and other platforms
