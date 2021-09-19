@@ -13,20 +13,62 @@ class DoublyLinkedList:
         self.tail = None
 
     def setHead(self, node):
-        # Write your code here.
-        pass
+        insert = self.containsNode(node)
+        if insert:
+            self.remove(node)
+            self.head.prev = node
+            node.next = self.head
+            self.head = self.head.prev
+            self.head.prev = None
+        else:
+            self.head.prev = node
+            node.next = self.head
+            self.head = self.head.prev
+            self.head.prev = None
 
     def setTail(self, node):
-        # Write your code here.
-        pass
+        insert = self.containsNode(node)
+        if insert:
+            self.remove(node)
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = self.tail.next
+            self.tail.next = None
+        else:
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = self.tail.next
+            self.tail.next = None
 
     def insertBefore(self, node, nodeToInsert):
-        # Write your code here.
-        pass
+        insert = self.containsNode(nodeToInsert)
+        if insert:
+            self.remove(nodeToInsert)
+        if self.head is node:
+            self.head.prev = nodeToInsert
+            nodeToInsert.next = self.head
+            nodeToInsert.prev = None
+            self.head = self.head.prev
+            return
+        nodeToInsert.next = node
+        nodeToInsert.prev = node.prev
+        node.prev.next = nodeToInsert
+        node.prev = nodeToInsert
 
     def insertAfter(self, node, nodeToInsert):
-        # Write your code here.
-        pass
+        insert = self.containsNode(nodeToInsert)
+        if insert:
+            self.remove(nodeToInsert)
+        if self.tail is node:
+            self.tail.next = nodeToInsert
+            nodeToInsert.prev = self.tail
+            nodeToInsert.next = None
+            self.tail = self.tail.next
+            return
+        nodeToInsert.prev = node
+        nodeToInsert.next = node.next
+        node.next.prev = nodeToInsert
+        node.next = nodeToInsert
 
     def insertAtPosition(self, position, nodeToInsert):
         if position == 1:
