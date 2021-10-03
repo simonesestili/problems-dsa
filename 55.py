@@ -1,12 +1,13 @@
 class Solution:     
     def canJump(self, nums: List[int]) -> bool:
-        curr, furthest = 0, nums[0]
+        left, furthest = 0, nums[0]
 
         while True:
-            if furthest >= len(nums) - 1:
+            if furthest >= len(nums):
                 return True
-            if nums[curr] == 0:
+            elif not nums[left]:
                 return False
-            for i in range(curr + 1, furthest + 1):
-                if i + nums[i] >= furthest:
-                    curr, furthest = i, i + nums[i]
+            for i in range(left, furthest + 1):
+                if i + nums[i] >= left + nums[left]:
+                    left = i
+            furthest = left + nums[left]
