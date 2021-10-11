@@ -5,17 +5,13 @@ class Solution:
             while k > 0 and smallest and smallest[-1] > digit:
                 smallest.pop()
                 k -= 1
-            smallest.append(digit)    
+            smallest.append(digit)
         # Remove leading zeroes
-        firstNonZero = -1
         for i in range(len(smallest)):
             if smallest[i] != '0':
-                firstNonZero = i
                 break
-        smallest = smallest[i:]    
-        smallest = smallest[k:]
+        smallest = smallest[i:]
+        while smallest and k > 0:
+            k -= 1
+            smallest.pop()
         return '0' if not smallest else str(int(''.join(smallest)))
-
-# 1 4 3 2 2 1 9  <- num
-# 1 2 1 9        <- stack 
-# k = 0
