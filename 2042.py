@@ -1,3 +1,4 @@
+# O(n)
 class Solution:
     def areNumbersAscending(s):
         # Extract the tokens which are numbers
