@@ -1,14 +1,15 @@
 class Solution(object):     
     def getStrongest(self, arr, k):
-        n, strongest = len(arr), []
+        n = len(arr)
         arr.sort()
-        med = arr[(n - 1) // 2]
-        left, right = 0, n - 1
-        for i in range(k):
-            if abs(arr[left] - med) > abs(arr[right] - med):
-                strongest.append(arr[left])
-                left += 1
+        median = arr[(n - 1) // 2]
+        i, j = 0, n - 1
+        strongest = []
+        for _ in range(k):
+            if abs(arr[j] - median) >= abs(arr[i] - median):
+                strongest.append(arr[j])
+                j -= 1
             else:
-                strongest.append(arr[right])
-                right -= 1
+                strongest.append(arr[i])
+                i += 1
         return strongest        
