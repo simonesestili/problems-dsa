@@ -10,4 +10,4 @@ class Solution:
             else:
                 right -= 1
             numBoats += 1
-        return numBoats    
+        return numBoats  
