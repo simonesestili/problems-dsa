@@ -1,9 +1,6 @@
 class Solution:
     def firstPalindrome(self, words):
         for word in words:
-            if self.isvalid(word):
+            if word == word[::-1]:
                 return word
         return ''
-
-    def isvalid(self, word):
-        return word == word[::-1]
