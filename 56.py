@@ -1,15 +1,11 @@
 class Solution:
     def merge(self, intervals):
-        intervals.sort(key=lambda i: (i[0], i[1]))
-        merged = []
-        toIns = intervals[0]
-        for interval in intervals[1:]:
-            start, end = interval
-            if start <= toIns[1]:
-                toIns[1] = max(toIns[1], end)
+        merged, intervals = [], sorted(intervals + [[float('inf'), float('inf')]])
+        a, b = intervals[0][0], intervals[0][1]
+        for start, end in intervals[1:]:
+            if start > b:
+                merged.append([a, b])
+                a, b = start, end
             else:
-                merged.append(toIns)
-                toIns = interval
-        merged.append(toIns)
+                b = max(b, end)
         return merged
-
