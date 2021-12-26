@@ -3,10 +3,9 @@ class Solution:
         n, mono = len(heights), []
         ans = [0] * n
         for i in range(n - 1, -1, -1):
-            count = 0
-            while mono and mono[-1] < heights[i]:
+            while mono and heights[i] >= mono[-1]:
+                ans[i] += 1
                 mono.pop()
-                count += 1
-            ans[i] = count + bool(mono)
+            ans[i] += bool(mono)
             mono.append(heights[i])
         return ans
