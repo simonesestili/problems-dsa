@@ -1,21 +1,14 @@
 class Solution:
-    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
-        departs, arrivs = defaultdict(list), defaultdict(list)
-        first, last = 9e9, -9e9
-        for trip in trips:
-            count, depart, arriv = trip
-            departs[depart].append(count)
-            arrivs[arriv].append(count)
-            first, last = min(first, depart), max(last, arriv) 
-        peopleInCar = 0
+    def carPooling(self, trips, cap):
+        arrivals, departs = defaultdict(int), defaultdict(int)
+        start, end = float('inf'), float('-inf')
+        for num, src, dest in trips:
+            arrivals[dest] += num
+            departs[src] += num
+            start, end = min(start, src), max(end, dest)
 
-        for i in range(first, last + 1):
-            if i in arrivs:
-                for people in arrivs[i]:
-                    peopleInCar -= people
-            if i in departs:
-                for people in departs[i]:
-                    peopleInCar += people
-            if peopleInCar > capacity:
-                return False
-        return True    
+        in_car = 0
+        for i in range(start, end + 1):
+            in_car += departs[i] - arrivals[i]
+            if in_car > cap: return False
+        return True
