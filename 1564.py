@@ -1,18 +1,12 @@
 class Solution:
     def maxBoxesInWarehouse(self, boxes, warehouse):
-        boxes, heights = sorted(boxes, reverse=True), []
-
-        for h in warehouse[::-1]:
-            while heights and heights[-1] > h: heights.pop()
-            heights.append(h)
-        heights = heights[::-1]
-
+        m, n, boxes = len(boxes), len(warehouse), sorted(boxes, reverse=True)
+        for i in range(1, n):
+            warehouse[i] = min(warehouse[i], warehouse[i - 1])
         ans = 0
-        while boxes and heights:
-            while heights and boxes[-1] > heights[-1]: heights.pop()
-            if heights:
-                ans += 1
-                heights.pop()
-            boxes.pop()
-
+        while boxes and warehouse:
+            while warehouse and warehouse[-1] < boxes[-1]: warehouse.pop()
+            ans += bool(warehouse)
+            if warehouse: boxes.pop(); warehouse.pop();
         return ans
+
