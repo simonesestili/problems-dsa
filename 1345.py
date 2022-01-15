@@ -1,15 +1,22 @@
 class Solution:
     def minJumps(self, arr):
-        n, groups = len(arr), defaultdict(list)
-        for i, x in enumerate(arr): groups[x].append(i)
-        costs = [float('inf')] * n
+        n, seen, seen_nums, queue, nums = len(arr), set([0]), set(), deque([(0, 0)]), defaultdict(list)
+        for i, x in enumerate(arr): nums[x].append(i)
 
-        def bfs(i, prev):
-            if prev + 1 >= costs[i]: return
-            costs[i] = prev + 1
-            for j in groups[arr[i]]: bfs(j, costs[i])
-            if i: bfs(i - 1, costs[i])
-            if i != n - 1: bfs(i + 1, costs[i])
+        while queue:
+            i, cost = queue.popleft()
+            if i == n - 1: return cost
 
-        bfs(0, -1)
-        return costs[-1]
+            for j in [i - 1, i + 1]:
+                if 0 <= j < n and j not in seen:
+                    queue.append((j, cost + 1))
+                    seen.add(j)
+
+            if arr[i] in seen_nums: continue
+            for j in nums[arr[i]]:
+                queue.append((j, cost + 1))
+                seen.add(j)
+            seen_nums.add(arr[i])
+
+        return -1
+
