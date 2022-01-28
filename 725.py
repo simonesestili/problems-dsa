@@ -4,12 +4,12 @@ class Solution:
         size, extra = divmod(n, k)
 
         for i in range(k):
-            temp = head
+            part = head
             for j in range(size + (i < extra) - 1):
                 if not head: break
                 head = head.next
-            if head: head, head.next = head.next, None
-            parts.append(temp)
+            if head: head.next, head = None, head.next
+            parts[i] = part
 
         return parts
 
