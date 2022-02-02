@@ -1,25 +1,16 @@
 class Solution:     
-	def findAnagrams(self, s: str, p: str) -> List[int]:
-        if len(p) > len(s):
-            return []
-        indicies = []
-        target = [0] * 26
-        current = [0] * 26
-        # Fill the target count of letters
-        for letter in p:
-            target[ord(letter) - ord('a')] += 1
-        start, end = 0, 0
-        while end < len(p):
-            current[ord(s[end]) - ord('a')] += 1
-            end += 1
-        if target == current:
-            indicies.append(0)
+    def findAnagrams(self, s, p):
+        ans, m, n = [], len(s), len(p)
+        if n > m: return ans
 
-        while end < len(s):
-            current[ord(s[start]) - ord('a')] -= 1
-            start += 1
-            current[ord(s[end]) - ord('a')] += 1
-            end += 1
-            if target == current:
-                indicies.append(start)
-        return indicies
+        target, curr = [0] * 26, [0] * 26
+        for c in p: target[ord(c) - ord('a')] += 1
+        for i in range(n - 1): curr[ord(s[i]) - ord('a')] += 1
+
+        for i in range(n - 1, m):
+            curr[ord(s[i]) - ord('a')] += 1
+            if curr == target: ans.append(i - n + 1)
+            curr[ord(s[i - n + 1]) - ord('a')] -= 1
+
+        return ans
+
