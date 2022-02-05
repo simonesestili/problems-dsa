@@ -1,8 +1,10 @@
 class Solution:
     def findBuildings(self, heights):
-        n, most, ans = len(heights), 0, []
+        n, tallest, ans = len(heights), 0, []
+
         for i in range(n - 1, -1, -1):
-            if heights[i] > most:
+            if heights[i] > tallest:
                 ans.append(i)
-                most = heights[i]
+                tallest = heights[i]
+
         return reversed(ans)
