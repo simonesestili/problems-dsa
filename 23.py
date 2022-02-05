@@ -1,16 +1,14 @@
-import heapq
 class Solution:
-    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        heap = [(node.val, num, node) for num, node in enumerate(lists) if node]
-        heapq.heapify(heap)
-        merged = curr = ListNode(-1)
-        num = 0
+    def mergeKLists(self, lists):
+        heap = [(head.val, i) for i, head in enumerate(lists) if head]
+        heapify(heap)
+
+        dummy = curr = ListNode()
         while heap:
-            val, num, node = heap[0]
-            if node.next:
-                heapq.heapreplace(heap, (node.next.val, num, node.next))
-            else:
-                heapq.heappop(heap)
-            curr.next = ListNode(val)    
+            val, idx = heappop(heap)
+            curr.next = ListNode(val)
             curr = curr.next
-        return merged.next
+            lists[idx] = lists[idx].next
+            if lists[idx]: heappush(heap, (lists[idx].val, idx))
+
+        return dummy.next
