@@ -1,17 +1,18 @@
 class Solution:
     def removeKdigits(self, num, k):
-        smallest = []
+        stack, i = [], 0
+
         for digit in num:
-            while k > 0 and smallest and smallest[-1] > digit:
-                smallest.pop()
+            while k and stack and stack[-1] > digit:
+                stack.pop()
                 k -= 1
-            smallest.append(digit)
-        # Remove leading zeroes
-        for i in range(len(smallest)):
-            if smallest[i] != '0':
-                break
-        smallest = smallest[i:]
-        while smallest and k > 0:
+            stack.append(digit)
+
+        while i < len(stack) and stack[i] == '0': i += 1
+        stack = stack[i:]
+
+        while k and stack:
+            stack.pop()
             k -= 1
-            smallest.pop()
-        return '0' if not smallest else str(int(''.join(smallest)))
+
+        return '0' if not stack else ''.join(stack)
