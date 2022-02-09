@@ -1,3 +1,4 @@
 class Solution:
     def findPairs(self, nums, k):
-        seen, used, ans = set(), set(), 0
+        freq = Counter(nums)
+        return sum(x - k in freq if k else freq[x - k] > 1 for x in freq)
