@@ -1,11 +1,12 @@
 class Solution:
     def subarraySum(self, nums, k):
-        prefix = defaultdict(int)
+        prefix, count, curr = defaultdict(int), 0, 0
         prefix[0] = 1
-        ans = curr = 0
-        for num in nums:
-            curr += num
-            ans += prefix[curr - k]
+
+        for x in nums:
+            curr += x
+            count += prefix[curr - k]
             prefix[curr] += 1
-        return ans
+
+        return count
 
