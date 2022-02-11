@@ -3,9 +3,9 @@ class Solution:
         ans, prev = 0, float('-inf')
 
         for x in nums:
-            if x < prev:
+            if x <= prev:
                 ans += prev - x + 1
-                prev = x + 1
+                prev += 1
             else:
                 prev = x
 
