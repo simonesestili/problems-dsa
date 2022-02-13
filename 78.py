@@ -1,14 +1,24 @@
 class Solution:
-	def subsets(self, nums: List[int]) -> List[List[int]]:
-		subsets = []
-		self.get_subsets(nums, [], 0, subsets)
-		return subsets
-	
-	def get_subsets(self, nums, curr, idx, subsets):
-		if idx >= len(nums):
-			subsets.append(curr.copy())
-			return
-		self.get_subsets(nums, curr.copy(), idx + 1, subsets)
-		curr.append(nums[idx])
-		self.get_subsets(nums, curr.copy(), idx + 1, subsets)
-		
+    def subsets(self, nums):
+        self.ans = []
+        
+        def build(i, curr):
+            if i == len(nums):
+                self.ans.append(curr[:])
+            else:
+                build(i + 1, curr)
+                build(i + 1, curr + [nums[i]])
+
+        build(0, [])
+        return self.ans
+
+class Solution2:
+    def subsets(self, nums):
+        ans, n = [], len(nums)
+        for mask in range(1 << n):
+            curr = []
+            for i in range(n):
+                if (mask >> i) & 1:
+                    curr.append(nums[i])
+            ans.append(curr)
+        return ans
