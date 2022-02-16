@@ -1,11 +1,7 @@
 class Solution:
     def swapPairs(self, head):
-        
-        def swap(node):
-            if not node or not node.next: return node
-            nextt = node.next
-            node.next = swap(nextt.next)
-            nextt.next = node
-            return nextt
-
-        return swap(head)
+        if not head or not head.next: return head
+        nextt = head.next
+        head.next = self.swapPairs(nextt.next)
+        nextt.next = head
+        return nextt
