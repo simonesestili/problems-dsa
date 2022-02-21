@@ -1,12 +1,7 @@
 class Solution:
+    @cache
     def minDays(self, n):
-        cache = {}
-        return self.helper(n, cache)
+        if n < 3: return n
+        cand1, cand2 = n % 2 + self.minDays(n // 2), n % 3 + self.minDays(n // 3)
+        return 1 + min(cand1, cand2)
 
-    def helper(self, n, cache):
-        if n < 2:
-            return n
-        if n not in cache:
-            cache[n] = 1 + min(n % 3 + self.helper(n // 3, cache),
-                               n % 2 + self.helper(n // 2, cache))
-        return cache[n]
