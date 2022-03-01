@@ -1,7 +1,11 @@
 class Solution:     
-	def countBits(self, n: int) -> List[int]:
-		answer = [0] * (n + 1)
-		for i in range(0, n + 1):
-			answer[i] = bin(i).count('1')
-		return answer
-			
+    def countBits(self, n):
+        ans = [0] * (n + 1)
+        for i in range(n + 1):
+            j = i
+            while j:
+                ans[i] += j & 1
+                j >>= 1
+        return ans
+
+
