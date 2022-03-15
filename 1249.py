@@ -4,7 +4,6 @@ class Solution:
 
         for c in s:
             if c == ')':
-                rem -= 1
                 if not count: continue
                 count -= 1
                 ans.append(c)
@@ -14,5 +13,6 @@ class Solution:
                 ans.append(c)
             else:
                 ans.append(c)
+            rem -= c == ')'
 
         return ''.join(ans)
