@@ -1,21 +1,15 @@
-class Solution(object):   
+class Solution:   
 	def validateStackSequences(self, pushed, popped):
-		stack = []
-		to_push = to_pop = 0
-		
-		while to_pop < len(popped):
-			if not stack:
-				stack.append(pushed[to_push])
-				to_push += 1
-			else:
-				if stack[-1] == popped[to_pop]:
-					stack.pop()
-					to_pop += 1
-				else:
-					if to_push < len(pushed):
-						stack.append(pushed[to_push])
-						to_push += 1
-					else:
-						return False
-		
-		return True
+        stack = []
+        n, i, j = len(pushed), 0, 0
+
+        while i < n or j < n:
+            if stack and j < n and stack[-1] == popped[j]:
+                stack.pop()
+                j += 1
+            elif i < n:
+                stack.append(pushed[i])
+                i += 1
+            else: return False
+
+        return not stack
