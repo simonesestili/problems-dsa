@@ -1,4 +1,5 @@
 class Solution:
+    # time: O(n*log(n)*log(n))
     def smallestDistancePair(self, nums, k):
         n, nums = len(nums), sorted(nums)
         lo, hi = 0, nums[-1] - nums[0]
