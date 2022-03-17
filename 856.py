@@ -1,10 +1,10 @@
 class Solution:
     def scoreOfParentheses(self, s):
-        n = len(s)
-        score = curr = 0
-        for i in range(n):
-            if i < n - 1 and s[i] == '(' and s[i + 1] == ')':
-                score += 1 << curr
-            curr += s[i] == '('
-            curr -= s[i] == ')'
+        score = depth = 0
+
+        for i, c in enumerate(s):
+            depth += c == '('
+            depth -= c == ')'
+            score += 1 << depth if i and s[i-1] == '(' and s[i] == ')' else 0
+
         return score
