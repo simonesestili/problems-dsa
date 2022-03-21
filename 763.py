@@ -1,14 +1,12 @@
 class Solution:
     def partitionLabels(self, s):
-        ans = []
-        rightmost = {}
+        ans, rightmost = [], {c: i for i, c in enumerate(s)}
+
+        counted, bound = 0, rightmost[s[0]]
         for i, c in enumerate(s):
-            rightmost[c] = i
-        left, right = 0, rightmost[s[0]]
-        for i, c in enumerate(s):
-            if not i: continue
-            if i == right + 1:
-                ans.append(right - left + 1)
-                left = i
-            right = max(right, rightmost[c])
-        return ans + [len(s) - left]
+            bound = max(bound, rightmost[c])
+            if bound == i:
+                ans.append(i + 1 - counted)
+                counted += ans[-1]
+
+        return ans
