@@ -1,11 +1,9 @@
 class Solution:
-    def getSmallestString(self, n: int, k: int) -> str:
-        smallest = ''
-        while n > 0:
-            for i in range(26):
-                if k - i - 1 <= (n - 1) * 26:
-                    smallest += chr(ord('a') + i)
-                    k -= i + 1
-                    n -= 1
-                    break
-        return smallest
+    def getSmallestString(self, n, k):
+        ans = []
+        for i in range(n):
+            c = max(k - (n - i - 1) * 26, 1)
+            ans.append(chr(c + ord('a') - 1))
+            k -= c
+        return ''.join(ans)
+
