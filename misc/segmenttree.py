@@ -5,9 +5,6 @@ class SegmentNode:
         self.left = left
         self.right = right
 
-    def __repr__(self):
-        return f'(v:{self.val}, l:{self.left}, r:{self.right})'
-
 class SegmentTree:
     def __init__(self, arr):
         self.arr = arr
@@ -31,16 +28,14 @@ class SegmentTree:
             else: curr = curr.right
 
     def query(self, left, right):
-        pass
+        return self.node_query(self.root, left, right)
+
+    def node_query(self, node, left, right):
+        if left > right: return 0
+        if node.interval == (left, right): return node.val
+        mid = sum(node.interval) >> 1
+        return self.node_query(node.left, left, min(mid, right)) + self.node_query(node.right, max(mid+1, left), right)
 
 sg = SegmentTree([1,2,3,4,5,6,7,8,9])
-sg.update(0, 99)
-curr = [sg.root]
-while curr:
-    nextt = []
-    for node in curr:
-        print(f'({node.val}, {node.interval})')
-        if node.left: nextt.append(node.left)
-        if node.right: nextt.append(node.right)
-    curr = nextt
-    print('---------------')
+sg.update(3, 999)
+print(sg.query(3, 7))
