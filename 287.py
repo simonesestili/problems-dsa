@@ -1,6 +1,12 @@
 class Solution:
-	def findDuplicate(self, nums: List[int]) -> int:
-		for num in nums:
-			if nums[abs(num)] < 0:
-				return abs(num)
-			nums[abs(num)] *= -1
+    def findDuplicate(self, nums):
+        lo, hi = 1, len(nums)
+        while lo < hi:
+            mid = (lo + hi) >> 1
+            less = more = 0
+            for x in nums:
+                less += x <= mid
+                more += x > mid
+            if less > mid: hi = mid
+            else: lo = mid + 1
+        return lo

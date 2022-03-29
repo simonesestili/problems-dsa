@@ -36,6 +36,4 @@ class SegmentTree:
         mid = sum(node.interval) >> 1
         return self.node_query(node.left, left, min(mid, right)) + self.node_query(node.right, max(mid+1, left), right)
 
-sg = SegmentTree([1,2,3,4,5,6,7,8,9])
-sg.update(3, 999)
-print(sg.query(3, 7))
+sg = SegmentTree(list(range(10**5)))
