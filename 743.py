@@ -1,18 +1,19 @@
 class Solution:
-    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        sources = defaultdict(list)
-        for time in times:
-            u, v, w = time
-            sources[u].append((v, w))
-        delays = [float('inf')] * (n + 1)
-        delays[0], delays[k] = 0, 0
-        curr = deque([k])
-        while curr:
-            node = curr.pop()
-            for dest in sources[node]:
-                v, w = dest
-                if delays[node] + w < delays[v]:
-                    curr.appendleft(v)
-                    delays[v] = delays[node] + w
-        most_delay = max(delays)
-        return most_delay if most_delay != float('inf') else -1
+    def networkDelayTime(self, times, n, k):
+        graph, dist = defaultdict(list), [float('inf')] * (n + 1)
+        dist[0] = dist[k] = 0
+
+        for u, v, w in times: graph[u].append((v, w))
+
+        heap = [(dist[i], i) for i in range(1, n + 1)]
+        heapify(heap)
+
+        while heap:
+            time, node = heappop(heap)
+            for to, weight in graph[node]:
+                if time + weight < dist[to]:
+                    heappush(heap, (time + weight, to))
+                    dist[to] = time + weight
+
+        ans = max(dist)
+        return -1 if ans == float('inf') else ans
