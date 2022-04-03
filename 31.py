@@ -1,7 +1,8 @@
 class Solution:
     # 1) Find largest index k such that there is some j > k such that nums[j] > nums[k]
-    # 2) Swap nums[k] and nums[-1]
-    # 3) Reverse nums[k + 1:]
+    # 2) Find the index j defined above
+    # 3) Swap nums[k] and nums[j]
+    # 4) Reverse nums[k + 1:]
     def nextPermutation(self, nums):
         n = len(nums)
 
