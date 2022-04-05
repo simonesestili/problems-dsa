@@ -1,16 +1,21 @@
 class Solution:
-	def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-		largest_area = 0
-		for row in range(len(grid)):
-			for col in range(len(grid[0])):
-				largest_area = max(largest_area, self.get_area(grid, row, col))	
-		return largest_area
-	
-	def get_area(self, grid, row, col):
-		if (row < 0 or row >= len(grid) or col < 0 or 
-		    col >= len(grid[0]) or grid[row][col] != 1):
-			return 0
-		grid[row][col] = -1	
-			
-		return 1 + (self.get_area(grid, row, col + 1) + self.get_area(grid, row + 1, col) + 
-			self.get_area(grid, row - 1, col) + self.get_area(grid, row, col - 1))
+    def maxAreaOfIsland(self, grid):
+        m, n = len(grid), len(grid[0])
+        DIRS = ((1, 0), (0, 1), (-1, 0), (0, -1))
+        area = 0
+
+        def explore(i, j):
+            if not grid[i][j]: return 0
+            grid[i][j] = 0
+            res = 1
+            for di, dj in DIRS:
+                di, dj = i + di, j + dj
+                if 0 <= di < m and 0 <= dj < n:
+                    res += explore(di, dj)
+            return res
+
+        for row in range(m):
+            for col in range(n):
+                area = max(area, explore(row, col))
+
+        return area

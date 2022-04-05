@@ -3,16 +3,19 @@ class Solution:
         m, n = len(grid), len(grid[0])
         DIRS = ((1,0), (0,1), (-1,0), (0,-1))
 
-        def explore(row, col):
-            if row < 0 or col < 0 or row >= m or col >= n or grid[row][col] == '0':
-                return
-            grid[row][col] = '0'
-            for drow, dcol in DIRS:
-                explore(row + drow, col + dcol)
+        def explore(i, j):
+            grid[i][j] = '0'
+            for di, dj in DIRS:
+                di, dj = i + di, j + dj
+                if 0 <= di < m and 0 <= dj < n and grid[di][dj] == '1':
+                    explore(di, dj)
 
-        count = 0
-        for i in range(m):
-            for j in range(n):
-                count += int(grid[i][j])
-                explore(i, j)
-        return count
+        ans = 0
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == '0': continue
+                explore(row, col)
+                ans += 1
+
+        return ans
+                
