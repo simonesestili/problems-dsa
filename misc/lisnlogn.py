@@ -3,5 +3,5 @@ class Solution:
         lis = []
         for x in arr:
             idx = bisect_left(lis, x)
-            lis[idx: idx + 1] = num
+            lis[idx: idx + 1] = x
         return len(lis)
