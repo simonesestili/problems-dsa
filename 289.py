@@ -1,27 +1,24 @@
 class Solution:
+    # -1: 1 -> 0, -2: 0 -> 1
     def gameOfLife(self, board):
-        # Calculates next state of given cell
-        def life(row, col):
-            diffs = [[1,0], [0,1], [-1,0], [0,-1], [1,1], [-1,-1], [1,-1], [-1,1]]
-            neighbors = 0
-            for diff in diffs:
-                drow, dcol = row + diff[0], col + diff[1]
-                if drow < 0 or dcol < 0 or drow >= len(board) or dcol >= len(board[0]):
-                    continue
-                neighbors += board[drow][dcol] % 2
-            if board[row][col]:
-                return 3 if neighbors < 2 or neighbors > 3 else 1
-            return 2 if neighbors == 3 else 0
-
         m, n = len(board), len(board[0])
-        # If a dead cell is born mark it as 2
-        # If a live cell dies mark it as 3
+        DIRS = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
+        VALS = {-1: 0, -2: 1}
+
+        def alive(i, j):
+            return 0 <= i < m and 0 <= j < n and board[i][j] in [1, -1]
+        
+        def life(i, j):
+            neighbors = sum(alive(i+di, j+dj) for di, dj in DIRS)
+            lives = 0 if neighbors < 2 or neighbors > 3 else int(board[i][j] or neighbors == 3)
+            if board[i][j] == lives: return lives
+            return -2 if lives else -1
+
         for row in range(m):
             for col in range(n):
                 board[row][col] = life(row, col)
-        # Convert 2s and 3s to 1s and 0s
+
         for row in range(m):
             for col in range(n):
-                val = board[row][col]
-                board[row][col] = 1 if val == 2 else 0 if val == 3 else val
-
+                if board[row][col] not in VALS: continue
+                board[row][col] = VALS[board[row][col]]
