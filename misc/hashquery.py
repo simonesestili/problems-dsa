@@ -1,30 +1,3 @@
-class Solution:
-    def longestPalindrome(self, s):
-        h, n = HashPrefixSuffix(s), len(s)
-
-        left, right = 0, 1
-        for i in range(n - 1):
-            # Odd lengthed
-            lo, hi = 0, min(i, n - i - 1)
-            while lo < hi:
-                cand = (lo + hi + 1) >> 1
-                if h.leftSignificant(i - cand, i) == h.rightSignificant(i, i + cand): lo = cand
-                else: hi = cand - 1
-            if 2 * lo + 1 > right - left:
-                left, right = i - lo, i + lo + 1
-
-            # Even lengthed
-            if s[i] != s[i+1]: continue
-            lo, hi = 0, min(i, n - i - 2)
-            while lo < hi:
-                cand = (lo + hi + 1) >> 1
-                if h.leftSignificant(i - cand, i) == h.rightSignificant(i+1, i + cand + 1): lo = cand
-                else: hi = cand - 1
-            if 2 * (lo + 1) > right - left:
-                left, right = i - lo, i + lo + 2
-
-        return s[left:right]
-
 class HashPrefixSuffix:
     def __init__(self, s):
         self.MOD, self.BASE = pow(10, 9) + 7, 31
