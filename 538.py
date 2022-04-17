@@ -1,13 +1,15 @@
 class Solution:
     def convertBST(self, root):
-        self.total = 0
 
-        def dfs(node):
-            if not node: return
-            dfs(node.right)
-            self.total += node.val
-            node.val = self.total
-            dfs(node.left)
+        def inorder(node):
+            if node:
+                yield from inorder(node.right)
+                yield node
+                yield from inorder(node.left)
 
-        dfs(root)
+        total = 0
+        for node in inorder(root):
+            node.val += total
+            total = node.val
+
         return root
