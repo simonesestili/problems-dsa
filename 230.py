@@ -2,10 +2,14 @@ class Solution:
     def kthSmallest(self, root, k):
 
         def inorder(node):
-            if node:
-                yield from inorder(node.left)
+            stack = []
+            while node or stack:
+                while node:
+                    stack.append(node)
+                    node = node.left
+                node = stack.pop()
                 yield node.val
-                yield from inorder(node.right)
+                node = node.right
 
         for i, val in enumerate(inorder(root)):
             if i+1 == k:
