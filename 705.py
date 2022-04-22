@@ -1,12 +1,15 @@
 class MyHashSet:
     def __init__(self):
-        self.vals = [False] * (pow(10, 6) + 1)
+        self.PRIME = 997
+        self.vals = [list() for _ in range(self.PRIME)]
 
     def add(self, key):
-        self.vals[key] = True
+        if self.contains(key): return
+        self.vals[key % self.PRIME].append(key)
 
     def remove(self, key):
-        self.vals[key] = False
+        if not self.contains(key): return
+        self.vals[key % self.PRIME].remove(key)
 
     def contains(self, key):
-        return self.vals[key]
+        return key in self.vals[key % self.PRIME]
