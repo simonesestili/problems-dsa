@@ -1,23 +1,37 @@
+class DSU:
+    def __init__(self, n):
+        self.reps = list(range(n))
+        self.ranks = [1] * n
+
+    def find(self, a):
+        while a != self.reps[a]:
+            a = self.reps[a]
+        return a
+
+    def union(self, a, b):
+        ap, bp = self.find(a), self.find(b)
+        if ap != bp:
+            if self.ranks[ap] > self.ranks[bp]:
+                self.reps[bp] = ap
+                self.ranks[ap] += self.ranks[bp]
+            else:
+                self.reps[ap] = bp
+                self.ranks[bp] += self.ranks[ap]
+            return True
+        return False
+
 class Solution:
     def minCostConnectPoints(self, points):
-        n = len(points)
-        graph = [[float('inf')] * n for _ in range(n)]
+        n, edges = len(points), []
+        for i, (x, y) in enumerate(points):
+            for j in range(i):
+                xx, yy = points[j]
+                dist = abs(xx - x) + abs(yy - y)
+                edges.append((dist, i, j))
 
-        for i, (xi, yi) in enumerate(points):
-            for j, (xj, yj) in enumerate(points):
-                if i == j: continue
-                graph[i][j] = abs(xi - xj) + abs(yi - yj)
-
-        heap = [(graph[0][j], 0, j) for j in range(1, n)]
-        heapify(heap)
-
-        cost, seen = 0, set([0])
-        while len(seen) < n:
-            w, u, v = heappop(heap)
-            if v in seen: continue
-            [heappush(heap, (graph[v][z], v, z)) for z in range(n) if z != v]
-            seen.add(v)
-            cost += w
-
+        dsu, edges, cost = DSU(n), sorted(edges), 0
+        for w, u, v in edges:
+            if dsu.union(u, v):
+                cost += w
+            if dsu.ranks[dsu.find(0)] == n: break
         return cost
-
