@@ -1,23 +1,11 @@
 class Solution:
-    def deepestLeavesSum(self, root: TreeNode) -> int:
-        prev_lvl = []
-        curr_lvl = [root]
+    def deepestLeavesSum(self, root):
+        prev, curr = [], [root]
 
-        while curr_lvl:
-            prev_lvl = curr_lvl
-            children = []
-            for node in curr_lvl:
-                if node.left:
-                    children.append(node.left)
-                if node.right:
-                    children.append(node.right)
-            curr_lvl = children
+        while curr:
+            prev, curr = curr, []
+            for node in prev:
+                if node.left: curr.append(node.left)
+                if node.right: curr.append(node.right)
 
-        return sum([node.val for node in prev_lvl])
-
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+        return sum(node.val for node in prev)
