@@ -1,7 +1,7 @@
+DIRS = ((1, 0), (0, 1), (-1, 0), (0, -1))
 class Solution:
     def longestIncreasingPath(self, mat):
         m, n = len(mat), len(mat[0])
-        DIRS = ((1, 0), (0, 1), (-1, 0), (0, -1))
 
         @cache
         def dp(row, col):
