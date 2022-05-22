@@ -1,20 +1,16 @@
 class Solution:
-    def countSubstrings(self, s: str) -> int:
-        n = len(s)
-        substrs = [[False] * n for _ in range(n)]
+    def countSubstrings(self, s):
+        n, count = len(s), 1
 
-        def fill(left, right):
-            while left >= 0 and right < n and s[left] == s[right]:
-                substrs[left][right] = True
-                left -= 1
-                right += 1
+        def expand(l, r):
+            res = 0
+            while l >= 0 and r < n and s[l] == s[r]:
+                l, r = l - 1, r + 1
+                res += 1
+            return res
 
-        for i in range(n):
-            fill(i, i)
-            fill(i, i + 1)
-            
-        count = 0
-        for i in range(n):
-            for j in range(n):
-                count += substrs[i][j]
+        for mid in range(n - 1):
+            count += expand(mid, mid) # odd lengthed
+            count += expand(mid, mid + 1) # even lengthed
+
         return count
