@@ -1,7 +1,9 @@
 class Solution:
     def lis(self, arr):
-        lis = []
+        piles = []
         for x in arr:
-            idx = bisect_left(lis, x)
-            lis[idx: idx + 1] = x
-        return len(lis)
+            idx = bisect_left(piles, x)
+            if idx == len(piles): piles.append(x)
+            else: piles[idx] = x
+
+        return len(piles)
