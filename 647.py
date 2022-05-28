@@ -1,6 +1,6 @@
 class Solution:
     def countSubstrings(self, s):
-        n, count = len(s), 1
+        n, count = len(s), 0
 
         def expand(l, r):
             res = 0
@@ -9,8 +9,4 @@ class Solution:
                 res += 1
             return res
 
-        for mid in range(n - 1):
-            count += expand(mid, mid) # odd lengthed
-            count += expand(mid, mid + 1) # even lengthed
-
-        return count
+        return sum(expand(i, i) + expand(i, i + 1) for i in range(n))
