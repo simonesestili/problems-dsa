@@ -16,16 +16,24 @@ class SegmentTree:
         mid = (l + r) >> 1
         nodeleft, valleft = self.build(l, mid)
         noderight, valright = self.build(mid + 1, r)
-        return SegmentNode(valleft + valright, (l, r), nodeleft, noderight), valleft + valright
+        val = max(valleft, valright)
+        return SegmentNode(val, (l, r), nodeleft, noderight), val
 
     def update(self, idx, val):
-        delta = val - self.arr[idx]
         self.arr[idx] = val
-        curr = self.root
-        while curr:
-            curr.val += delta
-            if idx <= sum(curr.interval) >> 1: curr = curr.left
-            else: curr = curr.right
+
+        def dfs(node):
+            if not node or node.interval[0] == node.interval[1]:
+                if node: node.val = val
+                return
+            if idx <= sum(node.interval) >> 1:
+                dfs(node.left)
+            else:
+                dfs(node.right)
+            l, r = 0 if not node.left else node.left.val, 0 if not node.right else node.right.val
+            node.val = max(l, r)
+
+        dfs(self.root)
 
     def query(self, left, right):
         return self.node_query(self.root, left, right)
@@ -34,6 +42,8 @@ class SegmentTree:
         if left > right: return 0
         if node.interval == (left, right): return node.val
         mid = sum(node.interval) >> 1
-        return self.node_query(node.left, left, min(mid, right)) + self.node_query(node.right, max(mid+1, left), right)
+        return max(self.node_query(node.left, left, min(mid, right)), self.node_query(node.right, max(mid+1, left), right))
 
 sg = SegmentTree(list(range(10**5)))
+sg.update(0, 100)
+print(sg.query(0, 5))
