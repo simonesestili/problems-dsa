@@ -1,24 +1,17 @@
 class NumMatrix:
-    
-    def __init__(self, matrix: List[List[int]]):
-        self.sums = self.sumify(matrix)
+    def __init__(self, mat):
+        m, n = len(mat), len(mat[0])
+        self.prefix = []
+        for row in range(m):
+            run, curr = [], 0
+            for col in range(n):
+                curr += mat[row][col]
+                run.append((0 if not row else self.prefix[row-1][col]) + curr)
+            self.prefix.append(run)
 
-    def sumify(self, matrix):
-        m, n = len(matrix), len(matrix[0])
-        sums = [[0 for _ in range(n)] for _ in range(m)]
-
-        for row in range(m - 1, -1, -1):
-            row_sum = 0
-            for col in range(n - 1, -1, -1):
-                row_sum += matrix[row][col]
-                sums[row][col] = row_sum + (0 if row + 1 == m else sums[row + 1][col])
-
-        return sums
-
-    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
-        return self.getSum(row1, col1) - self.getSum(row1, col2 + 1) - self.getSum(row2 + 1, col1) + self.getSum(row2 + 1, col2 + 1)
-
-    def getSum(self, row, col):
-        if row == len(self.sums) or col == len(self.sums[0]):
-            return 0
-        return self.sums[row][col]
+    def sumRegion(self, row1, col1, row2, col2):
+        full = self.prefix[row2][col2]
+        top = 0 if not row1 else self.prefix[row1-1][col2]
+        left = 0 if not col1 else self.prefix[row2][col1-1]
+        extra = 0 if not min(row1, col1) else self.prefix[row1-1][col1-1]
+        return full - top - left + extra
