@@ -1,9 +1,18 @@
 class Solution:
     def maxProduct(self, words):
-        best, n = 0, len(words)
-        chars = [set(word) for word in words]
-        for i in range(n):
+        code = lambda c: ord(c) - ord('a')
+
+        def get_mask(word):
+            mask = 0
+            for c in word:
+                mask |= 1 << code(c)
+            return mask
+
+        best = 0
+        words = [(get_mask(word), len(word)) for word in words]
+        for i in range(len(words)):
             for j in range(i):
-                if not chars[i] & chars[j]:
-                    best = max(best, len(words[i]) * len(words[j]))
+                if words[i][0] & words[j][0]: continue
+                best = max(best, words[i][1] * words[j][1])
+
         return best

@@ -1,2 +1,2 @@
 UPDATE Salary
-SET sex = CHAR(ASCII(sex) ^ ASCII('m') ^ ASCII('f'));
+SET sex = IF(sex = 'm', 'f', 'm');
