@@ -1,0 +1,5 @@
+SELECT followee AS follower, COUNT(*) AS num
+FROM Follow
+GROUP BY followee
+HAVING followee IN (SELECT follower FROM Follow)
+ORDER BY follower

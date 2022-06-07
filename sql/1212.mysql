@@ -1,0 +1,6 @@
+SELECT team_id, team_name, 
+(SELECT IFNULL(SUM(IF(team_id = host_team AND host_goals > guest_goals OR team_id = guest_team AND guest_goals > host_goals, 3, IF(guest_goals = host_goals, 1, 0))), 0)
+FROM Matches 
+WHERE team_id IN (host_team, guest_team)) AS num_points
+FROM Teams
+ORDER BY num_points DESC, team_id

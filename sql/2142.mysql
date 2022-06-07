@@ -1,0 +1,12 @@
+WITH cte AS (
+	SELECT passenger_id, MIN(Buses.arrival_time) AS boarding
+	FROM Passengers LEFT JOIN Buses
+	ON Buses.arrival_time >= Passengers.arrival_time
+	GROUP BY passenger_id
+)
+SELECT bus_id, COUNT(cte.boarding) AS passengers_cnt
+FROM Buses
+LEFT JOIN cte
+ON cte.boarding = Buses.arrival_time
+GROUP BY bus_id
+ORDER BY bus_id

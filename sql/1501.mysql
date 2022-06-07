@@ -1,0 +1,6 @@
+SELECT Country.name AS country
+FROM Person 
+JOIN Country ON SUBSTR(phone_number, 1, 3) = country_code
+JOIN Calls ON id IN (callee_id, caller_id)
+GROUP BY Country.name
+HAVING AVG(duration) > (SELECT AVG(duration) FROM Calls)
