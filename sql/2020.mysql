@@ -1,0 +1,6 @@
+SELECT COUNT(Srm.account_id) AS accounts_count
+FROM Subscriptions AS Sub
+LEFT JOIN Streams AS Srm
+ON Sub.account_id = Srm.account_id
+AND YEAR(start_date) < 2022 AND YEAR(end_date) > 2020
+AND YEAR(stream_date) <> 2021
