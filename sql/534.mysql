@@ -1,0 +1,5 @@
+SELECT A.player_id, A.event_date, SUM(B.games_played) AS games_played_so_far
+FROM Activity AS A
+LEFT JOIN Activity AS B
+ON A.player_id = B.player_id AND A.event_date >= B.event_date
+GROUP BY A.player_id, A.event_date
