@@ -1,7 +1,6 @@
 class Solution:
     def furthestBuilding(self, heights, bricks, ladders):
-        n = len(heights)
-        ladder = []
+        n, ladder = len(heights), []
 
         for i in range(n - 1):
             diff = heights[i+1] - heights[i]
