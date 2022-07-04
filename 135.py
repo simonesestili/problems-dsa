@@ -1,11 +1,12 @@
 class Solution:
     def candy(self, ratings):
         n = len(ratings)
-        r = sorted([(rating, i) for i, rating in enumerate(ratings)])
-        candies, total = [0] * n, 0
-        for rating, i in r:
-            left = 0 if not i or rating == ratings[i - 1] else candies[i - 1]
-            right = 0 if i == n - 1 or rating == ratings[i + 1] else candies[i + 1]
-            candies[i] = max(left, right) + 1
-            total += candies[i]
-        return total
+        candies = [1] * n
+
+        for rating, i in sorted((ratings[i], i) for i in range(n)):
+            if i and ratings[i-1] < rating:
+                candies[i] = max(candies[i], candies[i-1] + 1)
+            if i != n - 1 and ratings[i+1] < rating:
+                candies[i] = max(candies[i], candies[i+1] + 1)
+
+        return sum(candies)
