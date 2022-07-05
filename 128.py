@@ -1,12 +1,10 @@
 class Solution:
     def longestConsecutive(self, nums):
-        ans, nums = 0, set(nums)
+        nums = set(nums)
 
-        for num in nums:
-            if num - 1 in nums: continue
-            last = num + 1
+        def length(val):
+            last = val + 1
             while last in nums: last += 1
-            ans = max(ans, last - num)
+            return last - val
 
-        return ans
-
+        return max((length(num) for num in nums if num - 1 not in nums), default=0)
