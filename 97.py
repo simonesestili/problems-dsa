@@ -2,12 +2,14 @@ class Solution:
     def isInterleave(self, s1, s2, s3):
         m, n = len(s1), len(s2)
         if m + n != len(s3): return False
-        dp = [[False] * (n + 1) for _ in range(m + 1)]
-        dp[m][n] = True
-        for i in range(m, -1, -1):
-            for j in range(n, -1, -1):
-                if i < m and s1[i] == s3[i + j]:
-                    dp[i][j] |= dp[i + 1][j]
-                if j < n and s2[j] == s3[i + j]:
-                    dp[i][j] |= dp[i][j + 1]
-        return dp[0][0]
+
+        @cache
+        def dp(i, j):
+            if i == m: return s3[j-n:] == s2[j-n:]
+            if j == n: return s3[i-m:] == s1[i-m:]
+            if s3[i+j] == s1[i] and dp(i + 1, j):
+                return True
+            if s3[i+j] == s2[j] and dp(i, j + 1):
+                return True
+
+        return dp(0, 0)
