@@ -1,15 +1,12 @@
 class Solution:
     def rightSideView(self, root):
-        ans = []
-        level = [root] if root else []
-        while level:
-            ans.append(level[-1].val)
-            next_level = []
-            for node in level:
-                if node.left:
-                    next_level.append(node.left)
-                if node.right:
-                    next_level.append(node.right)
-            level = next_level
+        ans = {}
 
-        return ans
+        def dfs(node, height=0):
+            if not node: return
+            dfs(node.right, height + 1)
+            if height not in ans: ans[height] = node.val
+            dfs(node.left, height + 1)
+
+        dfs(root)
+        return [ans[i] for i in range(len(ans))]
