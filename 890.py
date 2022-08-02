@@ -1,13 +1,14 @@
 class Solution:
-    def findAndReplacePattern(self, words, pattern: str):
-        return [word for word in words if self.fix(word) == self.fix(pattern)]
+    def findAndReplacePattern(self, words, pattern):
+        
+        def fix(word):
+            mp, fixed, offset = {}, [], 0
+            for c in word:
+                if c not in mp:
+                    mp[c] = chr(ord('a') + offset)
+                    offset += 1
+                fixed.append(mp[c])
+            return ''.join(fixed)
 
-    def fix(self, word):
-        maps, word_num = {}, 0
-        fixed = ''
-        for c in word:
-            if c not in maps:
-                maps[c] = chr(ord('a') + word_num)
-                word_num += 1
-            fixed += maps[c]
-        return fixed    
+        pattern = fix(pattern)
+        return [word for word in words if fix(word) == pattern]
