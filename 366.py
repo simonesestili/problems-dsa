@@ -1,19 +1,12 @@
 class Solution:
     def findLeaves(self, root):
-        self.depths = {}
-        n = self.depth(root)
-        self.ans = [list() for _ in range(n)]
+        depths = defaultdict(list)
 
         def dfs(node):
-            if not node: return
-            self.ans[self.depths[node] - 1].append(node.val)
-            dfs(node.left)
-            dfs(node.right)
+            if not node: return 0
+            depth = 1 + max(dfs(node.left), dfs(node.right))
+            depths[depth].append(node.val)
+            return depth
 
         dfs(root)
-        return self.ans
-
-    def depth(self, root):
-        if not root: return 0
-        self.depths[root] = 1 + max(self.depth(root.left), self.depth(root.right))
-        return self.depths[root]
+        return [depths[d+1] for d in range(len(depths))]
