@@ -1,14 +1,5 @@
 class Solution:
     def goodNodes(self, root):
-        self.good = 0
+        dfs = lambda node, mx: 0 if not node else (node.val >= mx) + dfs(node.left, max(mx,node.val)) + dfs(node.right, max(mx,node.val))
 
-        def dfs(node, maximum):
-            if not node:
-                return
-            self.good += node.val >= maximum
-            maximum = max(maximum, node.val)
-            dfs(node.left, maximum)
-            dfs(node.right, maximum)
-
-        dfs(root, float('-inf'))
-        return self.good
+        return dfs(root, float('-inf'))
