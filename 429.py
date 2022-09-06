@@ -1,14 +1,10 @@
 class Solution:
     def levelOrder(self, root):
-        ans = []
-        level = [root] if root else []
-        while level:
-            next_level = []
-            vals = []
-            for node in level:
-                vals.append(node.val)
-                for child in node.children:
-                    next_level.append(child)
-            ans.append(vals)
-            level = next_level
+        ans = [[root]] if root else []
+        while ans and ans[-1]:
+            ans.append([])
+            for i, node in enumerate(ans[-2]):
+                for child in node.children: ans[-1].append(child)
+                ans[-2][i] = node.val
+        if ans: ans.pop()
         return ans
