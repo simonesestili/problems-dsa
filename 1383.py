@@ -1,13 +1,15 @@
 class Solution:
     def maxPerformance(self, n, speed, eff, k):
-        workers, speeds = sorted(zip(eff, speed), reverse=1), []
+        workers = []
+        total = best = 0
 
-        ans = speed_total = 0
-        for e, s in workers:
-            heappush(speeds, s)
-            speed_total += s
-            if len(speeds) > k:
-                speed_total -= heappop(speeds)
-            ans = max(ans, e * speed_total)
+        for eff, spd in sorted(zip(eff, speed), reverse=True):
+            if len(workers) < k:
+                total += spd
+                heappush(workers, spd)
+            elif workers[0] < spd:
+                total += spd - workers[0]
+                heapreplace(workers, spd)
+            best = max(best, total * eff)
 
-        return ans % (10**9+7)
+        return best % (10 ** 9 + 7)
