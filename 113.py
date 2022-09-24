@@ -1,21 +1,16 @@
 class Solution:
-    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
-        paths = []
-        self.traverse(root, targetSum, 0, [], paths)
-        return paths
+    def pathSum(self, root, target):
+        ans, curr = [], []
+        isleaf = lambda x: x.left is None and x.right is None
 
-    def traverse(self, root, targetSum, currSum, path, paths):
-        if not root:
-            return 
+        def dfs(node, k):
+            if node is None: return
+            curr.append(node.val)
+            k -= node.val
+            if isleaf(node) and k == 0: ans.append(curr.copy())
+            dfs(node.left, k)
+            dfs(node.right, k)
+            curr.pop()
 
-        currSum += root.val
-        path.append(root.val)
-
-        if self.isLeaf(root) and targetSum == currSum:
-            paths.append(path)
-
-        self.traverse(root.left, targetSum, currSum, path.copy(), paths)
-        self.traverse(root.right, targetSum, currSum, path.copy(), paths)
-
-    def isLeaf(self, node):
-        return not node.left and not node.right
+        dfs(root, target)
+        return ans
