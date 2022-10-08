@@ -1,3 +1,13 @@
+class Solution:
+    def deleteString(self, s):
+        H, n = HashPrefixSuffix(s), len(s)
+        dp = [1] * n + [0]
+        for i in range(n - 1, -1, -1):
+            for sz in range(1, (n - i) // 2 + 1):
+                if H.ls(i, i + sz - 1) != H.ls(i + sz, i + sz + sz - 1): continue
+                dp[i] = max(dp[i], 1 + dp[i+sz])
+        return dp[0]
+
 class HashPrefixSuffix:
     def __init__(self, s):
         self.MOD, self.BASE = pow(10, 9) + 7, 31
@@ -7,12 +17,10 @@ class HashPrefixSuffix:
         for c in s: self.prefix.append((self.prefix[-1] * self.BASE + self.code(c)) % self.MOD)
         for c in s[::-1]: self.suffix.append((self.suffix[-1] * self.BASE + self.code(c)) % self.MOD)
 
-    # Query with the leftmost character being the most significant
     def ls(self, left, right):
         size = right - left + 1
         return (self.prefix[right+1] - (self.prefix[left] * self.power[size] % self.MOD)) % self.MOD
 
-    # Query with the rightmost character being the most significant
     def rs(self, left, right):
         size = right - left + 1
         left, right = len(self.prefix) - 2 - right, len(self.prefix) - 2 - left
