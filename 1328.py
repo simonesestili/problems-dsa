@@ -1,12 +1,9 @@
 class Solution:
-    def breakPalindrome(self, palindrome: str) -> str:
-        n = len(palindrome)
-        if n == 1:
-            return ''
-        broken = ''
+    def breakPalindrome(self, palindrome):
+        n, palindrome = len(palindrome), list(palindrome)
         for i in range(n // 2):
             if palindrome[i] != 'a':
-                broken += 'a'
-                return broken + palindrome[i + 1:]
-            broken += palindrome[i]
-        return palindrome[:-1] + 'b'    
+                palindrome[i] = 'a'
+                return ''.join(palindrome)
+        palindrome[-1] = 'b'
+        return '' if n == 1 else ''.join(palindrome)
