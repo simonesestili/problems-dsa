@@ -1,16 +1,14 @@
 class Solution:
     def minWindow(self, s, t):
-        m, n = len(s), len(t)
-        delta = defaultdict(int)
-
-        for c in t: delta[c] += 1
-
-        ans, left = [0, float('inf')], 0
-        for right in range(m):
-            delta[s[right]] -= 1
-            while not any(delta[c] > 0 for c in delta):
-                if right - left < ans[1] - ans[0]: ans = [left, right]
-                delta[s[left]] += 1
+        ans, counts = None, Counter(t)
+        missings, left = len(counts), 0
+        for right, val in enumerate(s):
+            counts[val] -= 1
+            missings -= counts[val] == 0
+            while not missings:
+                if ans is None or right - left < ans[1] - ans[0]:
+                    ans = (left, right)
+                missings += counts[s[left]] == 0
+                counts[s[left]] += 1
                 left += 1
-
-        return '' if ans[1] == float('inf') else s[ans[0]:ans[1]+1]
+        return s[ans[0]:ans[1]+1] if ans else ''
