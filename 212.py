@@ -1,45 +1,36 @@
-class Trie:
-
-    def __init__(self):
-        self.trie = {}
-
+DIRS = ((1, 0), (0, 1), (-1, 0), (0, -1))
+class Trie(dict):
     def insert(self, word):
-        curr = self.trie
-        for idx in range(len(word)):
-            if word[idx] not in curr:
-                curr[word[idx]] = {}
-            curr = curr[word[idx]]
-        curr['*'] = True    
+        curr = self
+        for w in word:
+            if w not in curr: curr[w] = {}
+            curr = curr[w]
+        curr['*'] = True
 
 class Solution:
     def findWords(self, board, words):
-        m, n = len(board), len(board[0])
-        trie = Trie()
-        for word in words:
-            trie.insert(word)
-        found = []
-        trie = trie.trie
+        m, n, trie = len(board), len(board[0]), Trie()
+        for w in words: trie.insert(w)
 
-        def dfs(row, col, curr, trie):
-            if row < 0 or col < 0 or row >= m or col >= n or board[row][col] == '*':
-                return
-            letter = board[row][col]
-            if letter not in trie:
-                return
-            curr += letter
-            trie = trie[letter]
-            if '*' in trie:
-                del trie['*']
-                found.append(curr)
+        ans, curr = [], []
+        def dfs(row, col, node):
+            c = board[row][col]
+            if c not in node: return
             board[row][col] = '*'
-            dfs(row + 1, col, curr, trie)    
-            dfs(row - 1, col, curr, trie)    
-            dfs(row, col + 1, curr, trie)    
-            dfs(row, col - 1, curr, trie)    
-            board[row][col] = letter
+            curr.append(c)
+            if '*' in node[c]:
+                ans.append(''.join(curr))
+                board[row][col] = curr.pop()
+                return
+            for dr, dc in DIRS:
+                dr, dc = row + dr, col + dc
+                if 0 <= dr < m and 0 <= dc < n and board[dr][dc] != '*':
+                    dfs(dr, dc, node[c])
+            board[row][col] = curr.pop()
 
-        for row in range(m):
-            for col in range(n):
-                dfs(row, col, '', trie)
-        
-        return found
+        for i in range(m):
+            for j in range(n):
+                dfs(i, j, trie)
+        return ans
+            
+
