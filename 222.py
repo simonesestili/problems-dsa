@@ -1,30 +1,21 @@
 class Solution:
     def countNodes(self, root):
-        if not root: return 0
-        lheight = rheight = -1
-        curr = root
-        while curr:
-            lheight += 1
+        curr, h = root, -1
+        while curr is not None:
             curr = curr.left
-        curr = root
-        while curr:
-            rheight += 1
-            curr = curr.right
-        if lheight == rheight:
-            return 2 ** (lheight + 1) - 1
-        left, right = 1, 2 ** lheight
+            h += 1
+
+        left, right = 0, 2 ** h - 1
         while left < right:
-            mid = path = (left + right + 1) // 2
-            curr, count = root, 2 ** lheight
-            for _ in range(lheight):
-                if path / count <= 0.5:
-                    curr = curr.left
+            node = root
+            cand = idx = (left + right + 1) // 2
+            for lvl in range(h):
+                if 2 * idx >= 2 ** (h - lvl):
+                    node = node.right
+                    idx -= 2 ** (h - lvl - 1)
                 else:
-                    curr = curr.right
-                    path -= count // 2
-                count //= 2
-            if curr:
-                left = mid
-            else:
-                right = mid - 1
-        return 2 ** lheight - 1 + left                
+                    node = node.left
+            if node is None: right = cand - 1
+            else: left = cand
+
+        return int(2 ** h) + left
