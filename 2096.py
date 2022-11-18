@@ -1,26 +1,23 @@
 class Solution:
-    def getDirections(self, root, startV, destV):
-        self.start, self.end = None, None
+    def getDirections(self, root, s, e):
+        self.asc, self.desc = [], []
 
-        def path(node, curr):
-            if not node:
-                return
-            if node.val == startV or node.val == destV:
-                if node.val == startV:
-                    self.start = curr.copy()
-                else:
-                    self.end = curr.copy()
+        path = []
+        def dfs(node):
+            if not node: return
+            if node.val == s: self.asc = deque(path)
+            if node.val == e: self.desc = deque(path)
 
-            if node.left:
-                curr.append('L')
-                path(node.left, curr)
-            if node.right:
-                curr.append('R')
-                path(node.right, curr)
-            if len(curr):
-                curr.pop()
+            path.append('L')
+            dfs(node.left)
+            path.pop()
+            path.append('R')
+            dfs(node.right)
+            path.pop()
 
-        path(root, deque())
-        while len(self.start) and len(self.end) and self.start[0] == self.end[0]:
-            self.start.popleft(); self.end.popleft();
-        return ''.join(['U'] * len(self.start) + list(self.end))
+        dfs(root)
+        while self.asc and self.desc and self.asc[0] == self.desc[0]:
+            self.asc.popleft()
+            self.desc.popleft()
+
+        return 'U' * len(self.asc) + ''.join(self.desc)
