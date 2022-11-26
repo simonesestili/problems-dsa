@@ -1,11 +1,11 @@
 class Solution:
     def jobScheduling(self, starts, ends, profits):
-        n, jobs, starts = len(ends), sorted(list(zip(starts, ends, profits))), sorted(starts)
+        n, jobs, starts = len(starts), sorted(zip(starts, ends, profits)), sorted(starts)
 
         @cache
-        def dp(start):
-            if start >= n: return 0
-            i = bisect_left(starts, jobs[start][1])
-            return max(jobs[start][2] + dp(i), dp(start + 1))
+        def dp(i):
+            if i == n: return 0
+            nxt = bisect_left(jobs, (jobs[i][1], -inf, -inf))
+            return max(jobs[i][2] + dp(nxt), dp(i + 1))
 
         return dp(0)
