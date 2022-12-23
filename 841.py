@@ -1,13 +1,13 @@
 class Solution:
     def canVisitAllRooms(self, rooms):
         n = len(rooms)
-        self.seen = [False] * n
+        seen = [False] * n
 
         def dfs(room):
-            self.seen[room] = True
+            seen[room] = True
             for key in rooms[room]:
-                if not self.seen[key]:
-                    dfs(key)
+                if seen[key]: continue
+                dfs(key)
 
         dfs(0)
-        return all(self.seen)
+        return all(seen)
