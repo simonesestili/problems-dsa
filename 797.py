@@ -1,16 +1,14 @@
 class Solution:
     def allPathsSourceTarget(self, graph):
         n = len(graph)
-        self.paths, self.path = [], []
+        all_paths, curr_path = [], []
 
         def dfs(node):
-            self.path.append(node)
-            if self.path[-1] == n - 1:
-                self.paths.append(self.path[:])
-            else:
-                for child in graph[node]:
-                    dfs(child)
-            self.path.pop()
+            curr_path.append(node)
+            if node == n - 1: all_paths.append(curr_path[:])
+            else: [dfs(neigh) for neigh in graph[node]]
+            curr_path.pop()
 
         dfs(0)
-        return self.paths
+        return all_paths
+

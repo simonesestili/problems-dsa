@@ -1,25 +1,18 @@
-from heapq import heappop, heappush
 class Solution:
     def getOrder(self, tasks):
-        n = len(tasks)
-        ans = [0] * n 
-        for i in range(n):
-            tasks[i] = [tasks[i][1], i, tasks[i][0]] 
-        tasks.sort(key=lambda t : -t[-1])
-        time = tasks[-1][-1]
-        heap = []
-        while tasks and tasks[-1][-1] == time:
-            heappush(heap, tasks.pop())
+        ans, time = [], 0
+        unavail = sorted(((enq, pro, i) for i, (enq, pro) in enumerate(tasks)), reverse=True)
+        avail = []
 
-        for i in range(n):
-            process, idx, start = heappop(heap)
-            ans[i] = idx
-            time += process
-            while tasks and tasks[-1][-1] <= time:
-                heappush(heap, tasks.pop())
-            if not heap and tasks:
-                time = tasks[-1][-1]
-                while tasks and tasks[-1][-1] <= time:
-                    heappush(heap, tasks.pop())
+        while len(ans) < len(tasks):
+            while unavail and time >= unavail[-1][0]:
+                task = unavail.pop()
+                heappush(avail, (task[1], task[2]))
+            if not avail:
+                time = unavail[-1][0]
+                continue
+            pro, i = heappop(avail)
+            ans.append(i)
+            time += pro
 
         return ans
