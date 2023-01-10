@@ -1,9 +1,3 @@
 class Solution:
     def minimumRounds(self, tasks):
-        counts = Counter(tasks).values()
-
-        ans = 0
-        for x in counts:
-            if x == 1: return -1
-            ans += x // 3 + bool(x % 3)
-        return ans
+        return -1 if 1 in (vs := Counter(tasks).values()) else sum(cnt // 3 + (cnt % 3 > 0) for cnt in vs)
