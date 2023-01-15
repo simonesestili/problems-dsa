@@ -1,19 +1,17 @@
 class Solution:
-    def countSubTrees(self, n, e, labels):
-        self.ans = [0] * n
-        edges = defaultdict(list)
-        for a, b in e:
-            edges[a].append(b)
-            edges[b].append(a)
-            
-        def dfs(curr, parent):
-            c = Counter()
-            for child in edges[curr]:
-                if child != parent:
-                    c += dfs(child, curr)
-            c[labels[curr]] += 1
-            self.ans[curr] = c[labels[curr]]
-            return c
+    def countSubTrees(self, n, edges, labels):
+        ans, tree = [0] * n, defaultdict(list)
+        for a, b in edges: tree[a].append(b); tree[b].append(a)
 
-        dfs(0, -1)
-        return self.ans
+        def dfs(node, parent=None):
+            counts = defaultdict(int)
+            counts[labels[node]] = 1
+            for child in tree[node]:
+                if child == parent: continue
+                for label, count in dfs(child, node).items():
+                    counts[label] += count
+            ans[node] = counts[labels[node]]
+            return counts
+
+        dfs(0)
+        return ans
