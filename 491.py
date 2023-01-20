@@ -11,5 +11,5 @@ class Solution:
                 dfs(nums[i], i + 1, curr + [nums[i]])
             dfs(prev, i + 1, curr)
 
-        dfs(float('-inf'), 0, [])
+        dfs(-inf, 0, [])
         return subs
