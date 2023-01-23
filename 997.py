@@ -1,8 +1,8 @@
 class Solution:
     def findJudge(self, n, trust):
-        likes, liked = defaultdict(int), defaultdict(int)
+        likes, liked = defaultdict(bool), defaultdict(int)
         for a, b in trust:
-            likes[a] += 1
+            likes[a] = True
             liked[b] += 1
-        judge = max([person for person in liked], key=lambda x: liked[x], default=1)
-        return -1 if liked[judge] != n - 1 or likes[judge] else judge
+        cand, cnt = max(liked.items(), key=lambda x: x[1], default=(1, 0))
+        return -1 if cnt != n - 1 or likes[cand] else cand
