@@ -1,13 +1,13 @@
 class Solution:     
-    def jump(self, nums: List[int]) -> int: 
-        curr, furthest, end = 0, nums[0], len(nums) - 1
-        jumps = 0
+    def jump(self, nums):
+        jumps = curr = 0
+        furthest = nums[0]
 
-        while curr < end:
+        while curr < len(nums) - 1:
             jumps += 1
-            if furthest >= end:
-                return jumps
-            for i in range(curr + 1, furthest + 1):
+            if furthest >= len(nums) - 1:
+                break
+            for i in range(curr + 1, min(furthest + 1, len(nums))):
                 if i + nums[i] > furthest:
                     curr, furthest = i, i + nums[i]
 
