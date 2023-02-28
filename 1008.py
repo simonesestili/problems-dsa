@@ -2,6 +2,7 @@ class Solution:
     def bstFromPreorder(self, preorder):
         root = TreeNode(val=preorder[0])
         self.bst(root, preorder)
+
         return root
 
     def bst(self, root, preorder):
