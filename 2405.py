@@ -1,9 +1,9 @@
 class Solution:
     def partitionString(self, s):
-        counts, ans = defaultdict(int), 1
-        for x in s:
-            if counts[x]:
-                counts.clear()
-                ans += 1
-            counts[x] += 1
-        return ans
+        total, curr = 1, set()
+        for c in s:
+            if c in curr:
+                curr.clear()
+                total += 1
+            curr.add(c)
+        return total
