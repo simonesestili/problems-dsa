@@ -3,7 +3,7 @@ class Solution:
         dummy = curr = ListNode()
 
         while a and b:
-            if a.val < b.val:
+            if a.val <= b.val:
                 curr.next = a
                 a = a.next
             else:
@@ -11,6 +11,5 @@ class Solution:
                 b = b.next
             curr = curr.next
 
-        if a: curr.next = a
-        if b: curr.next = b
+        curr.next = a or b
         return dummy.next
