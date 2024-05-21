@@ -1,24 +1,16 @@
 class Solution:
     def subsets(self, nums):
-        self.ans = []
-        
-        def build(i, curr):
+        ans, curr = [], []
+
+        def build(i=0):
             if i == len(nums):
-                self.ans.append(curr[:])
-            else:
-                build(i + 1, curr)
-                build(i + 1, curr + [nums[i]])
+                ans.append(curr[:])
+                return
 
-        build(0, [])
-        return self.ans
+            curr.append(nums[i])
+            build(i + 1)
+            curr.pop()
+            build(i + 1)
 
-class Solution2:
-    def subsets(self, nums):
-        ans, n = [], len(nums)
-        for mask in range(1 << n):
-            curr = []
-            for i in range(n):
-                if (mask >> i) & 1:
-                    curr.append(nums[i])
-            ans.append(curr)
+        build()
         return ans
