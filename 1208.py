@@ -1,13 +1,13 @@
 class Solution:
     def equalSubstring(self, s, t, maxCost):
-        def cost(a, b):
-            return abs(ord(a) - ord(b))
+        ans = l = 0
 
-        best = curr = left = 0
-        for right in range(len(s)):
-            curr += cost(s[right], t[right])
-            while curr > maxCost and left <= right:
-                curr -= cost(s[left], t[left])
-                left += 1
-            best = max(best, right - left + 1)
-        return best
+        for r in range(len(s)):
+            maxCost -= abs(ord(s[r]) - ord(t[r]))
+            while maxCost < 0:
+                maxCost += abs(ord(s[l]) - ord(t[l]))
+                l += 1
+            ans = max(ans, r - l + 1)
+
+        return ans
+
