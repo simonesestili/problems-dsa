@@ -1,4 +1,6 @@
 class Solution:
     def reverseString(self, s):
-        for i in range(len(s) // 2):
-            s[i], s[-i-1] = s[-i-1], s[i]
+        n = len(s)
+        for i in range(n // 2):
+            s[i], s[n-i-1] = s[n-i-1], s[i]
+
