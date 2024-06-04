@@ -1,10 +1,8 @@
 class Solution:
     def longestPalindrome(self, s):
-        ans, count = 0, Counter(s)
-        odd = False
-
-        for c in count:
-            ans += count[c] >> 1
-            odd |= count[c] & 1
-
+        ans, odd, counts = 0, False, Counter(s)
+        for count in counts.values():
+            ans += count // 2
+            odd |= count % 2
         return 2 * ans + odd
+
