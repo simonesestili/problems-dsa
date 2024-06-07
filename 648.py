@@ -4,24 +4,24 @@ class Trie:
         
     def insert(self, word):
         curr = self.chars
-        for char in word:
-            if char not in curr:
-                curr[char] = {}
-            curr = curr[char]
+        for c in word:
+            if c not in curr: curr[c] = {}
+            curr = curr[c]
         curr['*'] = True
 
+    def prefix(self, word):
+        curr, res = self.chars, []
+        for c in word:
+            if c not in curr: break 
+            curr = curr[c]
+            res.append(c)
+            if '*' in curr:
+                return ''.join(res)
+        return None
+
 class Solution:
-    def replaceWords(self, dictionary, sentence):
-        words, trie = sentence.split(), Trie()
-        for root in dictionary:
-            trie.insert(root)
-        for i, word in enumerate(words):
-            curr = trie.chars
-            for j, char in enumerate(word):
-                if char not in curr:
-                    break
-                curr = curr[char]
-                if '*' in curr:
-                    words[i] = word[:j + 1]
-                    break
-        return ' '.join(words)
+    def replaceWords(self, roots, sentence):
+        trie = Trie()
+        for root in roots: trie.insert(root)
+        return ' '.join(trie.prefix(word) or word for word in sentence.split())
+
