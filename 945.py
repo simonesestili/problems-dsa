@@ -1,11 +1,9 @@
 class Solution:
     def minIncrementForUnique(self, nums):
-        n, count = len(nums), Counter(nums)
+        ans, top, counts = 0, -1, Counter(nums)
+        for x in sorted(counts.keys()):
+            top = max(top, x)
+            ans += (top - x) * counts[x] + (counts[x] ** 2 - counts[x]) // 2
+            top += counts[x]
+        return ans
 
-        increments, top = 0, -1
-        for val in sorted(count.keys()):
-            top = max(top, val)
-            increments += top * count[val] - val * count[val] + (count[val] * (count[val] - 1)) // 2
-            top += count[val]
-
-        return increments
