@@ -1,15 +1,14 @@
 class Solution:
-    def maxSatisfied(self, customers, grumpy, minutes):
-        base, n = 0, len(customers)
-        for i in range(n): base += 0 if grumpy[i] else customers[i]
+    def maxSatisfied(self, customers, grumpy, m):
+        base = sum(c for c, g in zip(customers, grumpy) if not g)
+        best = curr = l = 0
 
-        extra = 0
-        for i in range(minutes): extra += customers[i] if grumpy[i] else 0
-        ans = base + extra
+        for r in range(len(customers)):
+            if grumpy[r]: curr += customers[r]
+            if r - l + 1 > m:
+                if grumpy[l]: curr -= customers[l]
+                l += 1
+            best = max(best, curr)
 
-        for i in range(minutes, n):
-            if grumpy[i]: extra += customers[i]
-            if grumpy[i - minutes]: extra -= customers[i - minutes]
-            ans = max(ans, base + extra)
+        return base + best
 
-        return ans
