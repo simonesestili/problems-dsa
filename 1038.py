@@ -2,12 +2,13 @@ class Solution:
     def bstToGst(self, root):
         self.total = 0
 
-        def inorder(node):
-            if not node: return
-            inorder(node.right)
+        def dfs(node):
+            if node is None: return
+            dfs(node.right)
             self.total += node.val
             node.val = self.total
-            inorder(node.left)
+            dfs(node.left)
 
-        inorder(root)
+        dfs(root)
         return root
+
