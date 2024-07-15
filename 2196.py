@@ -1,16 +1,11 @@
 class Solution:
     def createBinaryTree(self, desc):
-        nodes, children, parents = {}, set(), set()
-        for parent, child, left in desc:
-            if parent not in nodes: nodes[parent] = TreeNode(parent)
-            if child not in nodes: nodes[child] = TreeNode(child)
-
-            if left: nodes[parent].left = nodes[child]
-            else: nodes[parent].right = nodes[child]
-
-            parents.add(parent)
-            children.add(child)
-
-        root = (parents - children).pop()
-        return nodes[root]
+        nodes, roots = {}, set((p for p, c, l in desc))
+        for p, c, l in desc:
+            roots.discard(c)
+            if p not in nodes: nodes[p] = TreeNode(val=p)
+            if c not in nodes: nodes[c] = TreeNode(val=c)
+            if l: nodes[p].left = nodes[c]
+            else: nodes[p].right = nodes[c]
+        return nodes[roots.pop()]
 
