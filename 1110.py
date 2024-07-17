@@ -1,22 +1,16 @@
-# Faster than 99.74%
 class Solution:
     def delNodes(self, root, toDelete):
-        toDelete = set(toDelete)
-        forest = []
+        ans, toDelete = [], set(toDelete)
 
-        def getForest(root, isRoot):
-            if not root:
-                return root
-            isInvalid = root.val in toDelete
-            if isInvalid:
-                getForest(root.left, isInvalid)
-                getForest(root.right, isInvalid)
+        def dfs(node, isroot):
+            if node is None: return
+            if node.val in toDelete:
+                dfs(node.left, True), dfs(node.right, True)
                 return
-            if isRoot:
-                forest.append(root)
-            root.left = getForest(root.left, isInvalid)
-            root.right = getForest(root.right, isInvalid)
-            return None if isInvalid else root
-        
-        getForest(root, True)
-        return forest
+            if isroot: ans.append(node)
+            node.left, node.right = dfs(node.left, False), dfs(node.right, False)
+            return node
+
+        dfs(root, True)
+        return ans
+
