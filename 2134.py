@@ -1,17 +1,10 @@
 class Solution:
     def minSwaps(self, nums):
-        n = len(nums)
-        ans, curr, c = float('inf'), 0, nums.count(1)
-        if not c: return 0
-        for i in range(c - 1): curr += nums[i]
-        left = curr
-        for right in range(c - 1, n):
-            curr += nums[right]
-            ans = min(ans, c - curr)
-            curr -= nums[right - c + 1]
-        curr = 0
-        for i in range(c - 1):
-            curr += nums[-1-i]
-            ans = min(ans, c - curr - left)
-            left -= nums[c - 2 - i]
+        n, cnt = len(nums), nums.count(1)
+        ans = curr = nums[:cnt].count(0)
+        for l in range(n):
+            curr -= nums[l] == 0
+            curr += nums[(l+cnt)%n] == 0
+            ans = min(ans, curr)
         return ans
+
