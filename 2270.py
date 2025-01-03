@@ -1,10 +1,8 @@
 class Solution:
     def waysToSplitArray(self, nums):
-        count, n = 0, len(nums)
-        l, r = 0, sum(nums)
-
-        for i in range(n - 1):
-            l, r = l + nums[i], r - nums[i]
-            count += l >= r
-
-        return count
+        ans, prefix, suffix = 0, 0, sum(nums)
+        for x in nums[:-1]:
+            prefix += x
+            suffix -= x
+            ans += prefix >= suffix
+        return ans
