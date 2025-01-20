@@ -1,16 +1,14 @@
 class Solution:
     def wordSubsets(self, words1, words2):
-        max_counts = defaultdict(int)
-        for word in words2:
-            for c, count in Counter(word).items():
-                max_counts[c] = max(max_counts[c], count)
-
-        universals = []
-        for word in words1:
-            counts = Counter(word)
-            for c, count in max_counts.items():
-                if count > counts[c]: break
+        counts = defaultdict(int)
+        for w in words2:
+            for c, cnt in Counter(w).items():
+                counts[c] = max(counts[c], cnt)
+        ans = []
+        for w in words1:
+            count = Counter(w)
+            for c in counts:
+                if counts[c] > count[c]: break
             else:
-                universals.append(word)
-        return universals
-
+                ans.append(w)
+        return ans
