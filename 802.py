@@ -1,18 +1,13 @@
 class Solution:
     def eventualSafeNodes(self, graph):
-        safe = [not bool(j) for j in graph]
+        n, seen = len(graph), set()
 
-        def dfs(i, seen):
-            if safe[i] or i in seen: return safe[i]
-            seen.add(i)
-            safe[i] = all(dfs(j, seen) for j in graph[i])
-            return safe[i]
+        @cache
+        def dfs(node):
+            if node in seen:
+                return False
 
-        ans = []
+            seen.add(node)
+            return all(dfs(ch) for ch in graph[node])
 
-        for i in range(len(graph)):
-            dfs(i, set())
-            if safe[i]:
-                ans.append(i)
-
-        return ans
+        return [node for node in range(n) if dfs(node)]
