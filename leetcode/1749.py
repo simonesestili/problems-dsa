@@ -1,10 +1,8 @@
 class Solution:
     def maxAbsoluteSum(self, nums):
-        prefix = 0
-        mn = mx = 0
-
+        curr = mn = mx = 0
         for x in nums:
-            prefix += x
-            mn, mx = min(mn, prefix), max(mx, prefix)
-
+            curr += x
+            mn = min(mn, curr)
+            mx = max(mx, curr)
         return mx - mn
