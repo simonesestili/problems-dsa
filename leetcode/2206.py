@@ -1,6 +1,3 @@
 class Solution:
     def divideArray(self, nums):
-        counts = Counter(nums)
-        for num in counts:
-            if counts[num] & 1: return False
-        return True
+        return all(cnt % 2 == 0 for cnt in Counter(nums).values())
