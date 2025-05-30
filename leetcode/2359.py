@@ -1,26 +1,27 @@
 class Solution:
     def closestMeetingNode(self, edges, a, b):
-        alevel, blevel = [a], [b]
+        acurr, bcurr = [a], [b]
         aseen, bseen = set(), set()
-        works = []
-        while alevel or blevel:
-            nxt_alevel = []
-            nxt_blevel = []
-            for node in alevel:
+
+        ans = []
+        while acurr or bcurr:
+            anxt, bnxt = [], []
+            for node in acurr:
                 if node in bseen:
-                    works.append(node)
+                    ans.append(node)
                     continue
                 aseen.add(node)
                 if edges[node] != -1 and edges[node] not in aseen:
-                    nxt_alevel.append(edges[node])
-            alevel = nxt_alevel
-            for node in blevel:
+                    anxt.append(edges[node])
+            for node in bcurr:
                 if node in aseen:
-                    works.append(node)
+                    ans.append(node)
                     continue
                 bseen.add(node)
                 if edges[node] != -1 and edges[node] not in bseen:
-                    nxt_blevel.append(edges[node])
-            blevel = nxt_blevel
-            if works: break
-        return -1 if not works else min(works)
+                    bnxt.append(edges[node])
+            acurr, bcurr = anxt, bnxt
+            if ans:
+                return min(ans)
+
+        return -1
