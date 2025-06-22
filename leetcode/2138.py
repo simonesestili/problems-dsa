@@ -1,4 +1,8 @@
 class Solution:
     def divideString(self, s, k, fill):
-        s += fill * (-len(s) % k)
-        return [s[i:i+k] for i in range(0, len(s), k)]
+        ans = []
+        for i in range(0, len(s), k):
+            ans.append(s[i:i+k])
+        if len(ans[-1]) < k:
+            ans[-1] += fill * (k - len(ans[-1]))
+        return ans
