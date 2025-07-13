@@ -1,14 +1,11 @@
 class Solution:
     def matchPlayersAndTrainers(self, players, trainers):
-        players, trainers = sorted(players), sorted(trainers)
-        m, n = len(players), len(trainers)
-        i = j = 0
-
+        players.sort(), trainers.sort(reverse=True)
         ans = 0
-        while i < m and j < n:
-            if players[i] <= trainers[j]:
+        for p in players:
+            while trainers and p > trainers[-1]:
+                trainers.pop()
+            if trainers:
+                trainers.pop()
                 ans += 1
-                i, j = i + 1, j + 1
-            else: j += 1
-
         return ans
