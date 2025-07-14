@@ -1,7 +1,8 @@
 class Solution:
     def getDecimalValue(self, head):
-        val = 0
+        ans = 0
         while head:
-            val = (val << 1) + head.val
+            ans <<= 1
+            ans += head.val
             head = head.next
-        return val
+        return ans
