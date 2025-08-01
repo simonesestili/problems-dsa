@@ -1,9 +1,6 @@
 class Solution:
-    def generate(self, rows):
-        ans, prev = [[1]], [1]
-        for count in range(rows - 1):
-            k = count + 2
-            level = [1 if i in (0, k - 1) else prev[i] + prev[i - 1] for i in range(k)]
-            ans.append(level)
-            prev = level
-        return ans    
+    def generate(self, k):
+        ans = [[1]]
+        for r in range(2, k+1):
+            ans.append([ans[-1][i-1]+ans[-1][i] if 0<i<r-1 else 1 for i in range(r)])
+        return ans
