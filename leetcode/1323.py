@@ -1,8 +1,8 @@
 class Solution:
     def maximum69Number(self, num):
-        s = list(str(num))
-        idx = s.index('6') if '6' in s else -1
-        if idx == -1: return num
-        s[idx] = '9'
-        return ''.join(s)
-        
+        add, b = 0, 1
+        while num // b:
+            if num // b % 10 == 6:
+                add = b * 3
+            b *= 10
+        return num + add
