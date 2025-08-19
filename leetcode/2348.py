@@ -1,10 +1,7 @@
 class Solution:
     def zeroFilledSubarray(self, nums):
-        total, curr, prev = 0, 0, False
+        ans = curr = 0
         for x in nums:
-            if x:
-                curr, prev = 0, False
-            else:
-                curr, prev = curr + 1, True
-            total += curr
-        return total
+            curr = curr + 1 if x == 0 else 0
+            ans += curr
+        return ans
