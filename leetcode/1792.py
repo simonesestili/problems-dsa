@@ -1,12 +1,11 @@
 class Solution:
     def maxAverageRatio(self, classes, extra):
-        heap = []
+        h = []
         for p, t in classes:
-            heappush(heap, (p/t - (p+1)/(t+1), p, t))
+            heappush(h, (p / t - (p+1) / (t+1), p+1, t+1))
 
         for _ in range(extra):
-            d, p, t = heappop(heap)
-            p, t = p + 1, t + 1
-            heappush(heap, (p/t - (p+1)/(t+1), p, t))
+            _, p, t = heappop(h)
+            heappush(h, (p / t - (p+1) / (t+1), p+1, t+1))
 
-        return sum(p / t for _, p, t in heap) / len(classes)
+        return sum((p-1)/(t-1) for _, p, t in h) / len(classes)
