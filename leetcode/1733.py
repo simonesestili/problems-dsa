@@ -1,17 +1,16 @@
 class Solution:
-    def minimumTeachings(self, n, langs, ships):
-        m, langs = len(langs), list(map(set, langs))
+    def minimumTeachings(self, n, languages, friendships):
+        m, languages = len(languages), list(map(set, languages))
 
-        unable = set()
-        for u, v in ships:
-            if langs[u-1] & langs[v-1]: continue
-            unable.add(u); unable.add(v)
+        missing = set()
+        for u, v in friendships:
+            if not languages[u-1] & languages[v-1]:
+                missing.add(u)
+                missing.add(v)
 
-        if not unable: return 0
+        cnts = defaultdict(int)
+        for p in missing:
+            for l in languages[p-1]:
+                cnts[l] += 1
 
-        counts = defaultdict(int)
-        for person in unable:
-            for lang in langs[person-1]:
-                counts[lang] += 1
-
-        return len(unable) - max(counts.values())
+        return len(missing) - max(cnts.values(), default=0)
