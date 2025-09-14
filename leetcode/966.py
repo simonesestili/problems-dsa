@@ -1,13 +1,12 @@
 class Solution:
-	def spellchecker(self, wordlist: List[str], queries: List[str]) -> List[str]:
-		exact, caps, vowels = defaultdict(str), defaultdict(str), defaultdict(str)
+    def spellchecker(self, wordlist, queries):
+        def v(s):
+            return ''.join('*' if c in 'aeiou' else c for c in s.lower())
 
-		for word in wordlist[::-1]:
-			exact[word] = word
-			caps[word.lower()] = word
-			vowels[self.unvowel(word)] = word
-		return [exact[query] or caps[query.lower()] or vowels[self.unvowel(query)] or '' for query in queries] 
+        normal, caps, vowels = {}, {}, {}
+        for w in reversed(wordlist):
+            normal[w] = w
+            caps[w.lower()] = w
+            vowels[v(w)] = w
 
-	
-	def unvowel(self, s):
-		return ''.join([letter if letter not in 'aeiou' else '#' for letter in s.lower()])
+        return [normal.get(w) or caps.get(w.lower()) or vowels.get(v(w)) or '' for w in queries]
