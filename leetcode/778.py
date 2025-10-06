@@ -1,37 +1,34 @@
-class DSU:
-    def __init__(self, n):
-        self.reps = [i for i in range(n)]
-        self.ranks = [1] * n
-
-    def find(self, n):
-        while self.reps[n] != n:
-            n = self.reps[n]
-        return n
-
-    def union(self, a, b):
-        a_rep, b_rep = self.find(a), self.find(b)
-        if self.ranks[a_rep] > self.ranks[b_rep]:
-            self.reps[b_rep] = a_rep
-            self.ranks[a_rep] += self.ranks[b_rep]
-        else:
-            self.reps[a_rep] = b_rep
-            self.ranks[b_rep] += self.ranks[a_rep]
-
+DIRS = ((1, 0), (0, 1), (-1, 0), (0, -1))
 class Solution:
     def swimInWater(self, grid):
         n = len(grid)
         dsu = DSU(n * n)
-        heights = {}
-        for row in range(n):
-            for col in range(n):
-                heights[grid[row][col]] = (row, col)
+        heights = {grid[r][c]: (r, c) for r in range(n) for c in range(n)}
 
-        dirs = [0, 1, 0, -1, 0]
         for t in range(n * n):
-            row, col = heights[t]
-            for i in range(4):
-                drow, dcol = row + dirs[i], col + dirs[i + 1]
-                if drow >= 0 and dcol >= 0 and drow < n and dcol < n and grid[drow][dcol] < t:
-                    dsu.union(row * n + col, drow * n + dcol)
-            if dsu.find(0) == dsu.find(n * n - 1):
+            r, c = heights[t]
+            for R, C in DIRS:
+                R, C = r+R, c+C
+                if 0 <= R < n and 0 <= C < n and grid[R][C] < t:
+                    dsu.union(r*n+c, R*n+C)
+            if dsu.find(0) == dsu.find(n*n-1):
                 return t
+
+class DSU:
+    def __init__(self, n):
+        self.ranks = [1] * n
+        self.reps = list(range(n))
+
+    def find(self, a):
+        while self.reps[a] != a:
+            a = self.reps[a]
+        return a
+
+    def union(self, a, b):
+        ap, bp = self.find(a), self.find(b)
+        if self.ranks[ap] > self.ranks[bp]:
+            self.reps[bp] = ap
+            self.ranks[ap] += self.ranks[bp]
+        else:
+            self.reps[ap] = bp
+            self.ranks[bp] += self.ranks[ap]
