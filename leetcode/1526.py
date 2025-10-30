@@ -1,8 +1,7 @@
 class Solution:
     def minNumberOperations(self, target):
-        operations = curr = 0
-        for num in target:
-            if num > curr:
-                operations += num - curr
-            curr = num
-        return operations
+        ans = prev = 0
+        for x in target:
+            ans += max(x - prev, 0)
+            prev = x
+        return ans
