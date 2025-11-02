@@ -1,34 +1,25 @@
 class Solution:
     def countUnguarded(self, m, n, guards, walls):
-        guards, walls = set(map(tuple, guards)), set(map(tuple, walls))
-        guarded = set()
+        guards, walls, guard = set(map(tuple, guards)), set(map(tuple, walls)), set()
 
-        for row in range(m):
-            los = False
-            for col in range(n):
-                if (row, col) in guards: los = True
-                elif (row, col) in walls: los = False
-                elif los: guarded.add((row, col))
+        for r in range(m):
+            left = right = False
+            for i in range(n):
+                if (r, i) in guards: left = True
+                elif (r, i) in walls: left = False
+                elif left: guard.add((r, i))
+                if (r, n-i-1) in guards: right = True
+                elif (r, n-i-1) in walls: right = False
+                elif right: guard.add((r, n-i-1))
 
-        for row in range(m):
-            los = False
-            for col in range(n - 1, -1, -1):
-                if (row, col) in guards: los = True
-                elif (row, col) in walls: los = False
-                elif los: guarded.add((row, col))
+        for c in range(n):
+            up = down = False
+            for i in range(m):
+                if (i, c) in guards: up = True
+                elif (i, c) in walls: up = False
+                elif up: guard.add((i, c))
+                if (m-i-1, c) in guards: down = True
+                elif (m-i-1, c) in walls: down = False
+                elif down: guard.add((m-i-1, c))
 
-        for col in range(n):
-            los = False
-            for row in range(m):
-                if (row, col) in guards: los = True
-                elif (row, col) in walls: los = False
-                elif los: guarded.add((row, col))
-
-        for col in range(n):
-            los = False
-            for row in range(m - 1, -1, -1):
-                if (row, col) in guards: los = True
-                elif (row, col) in walls: los = False
-                elif los: guarded.add((row, col))
-
-        return m * n - len(guards) - len(guarded) - len(walls)
+        return m * n - len(guards) - len(walls) - len(guard)
