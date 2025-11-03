@@ -1,12 +1,11 @@
 class Solution:
-    def minCost(self, colors, cost):
-        time = curr = mx = prev = 0
-        for c, t in zip(colors, cost):
+    def minCost(self, colors, time):
+        prev, ans, mx, s = '-', 0, 0, 0
+        for t, c in zip(time, colors):
             if c != prev:
-                time += curr - mx
-                curr = mx = 0
-            mx = max(mx, t)
-            curr += t
+                ans += s - mx
+                mx = s = 0
             prev = c
-        return time + curr - mx
-
+            mx = max(mx, t)
+            s += t
+        return ans + s - mx
