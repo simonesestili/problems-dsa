@@ -1,8 +1,9 @@
 class Solution:
-    def countOperations(self, num1, num2):
-        count = 0
-        while num1 and num2:
-            count += 1
-            if num1 >= num2: num1 -= num2
-            else: num2 -= num1
-        return count
+    def countOperations(self, a, b):
+        ans = 0
+        a, b = sorted((a, b))
+        while a:
+            d, r = divmod(b, a)
+            a, b = r, a
+            ans += d
+        return ans
