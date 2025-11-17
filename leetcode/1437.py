@@ -1,9 +1,9 @@
 class Solution:
     def kLengthApart(self, nums, k):
-        prev = None
+        prev = -inf
         for i, x in enumerate(nums):
-            if not x: continue
-            if prev is not None and i - prev - 1 < k:
+            if x and i - prev - 1 < k:
                 return False
-            prev = i
+            elif x:
+                prev = i
         return True
