@@ -1,3 +1,3 @@
 class Solution:
-    def countOdds(self, lo, hi):
-        return (hi - lo) // 2 + bool(lo % 2 or hi % 2)
+    def countOdds(self, low, high):
+        return (high - low) // 2 + max(low % 2, high % 2)
