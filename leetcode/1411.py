@@ -1,7 +1,7 @@
+MOD = 10 ** 9 + 7
 class Solution:
     def numOfWays(self, n):
-        MOD = 10 ** 9 + 7
-        diff = alternate = 6
+        two = three = 6
         for _ in range(n - 1):
-            diff, alternate = (diff * 2 + alternate * 2) % MOD, (diff * 2 + alternate * 3) % MOD
-        return (diff + alternate) % MOD
+            two, three = (two * 2 + three * 2) % MOD, (two * 2 + three * 3) % MOD
+        return (two + three) % MOD
