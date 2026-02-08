@@ -1,10 +1,11 @@
 class Solution:
-    def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        if not root:
-            return True
-        return abs(self.height(root.left) - self.height(root.right)) <= 1 and self.isBalanced(root.left) and self.isBalanced(root.right)
+    def isBalanced(self, root):
+        def dfs(node):
+            if not node:
+                return 0, True
+            ld, l = dfs(node.left)
+            rd, r = dfs(node.right)
+            return 1 + max(ld, rd), abs(ld - rd) <= 1 and l and r
 
-    def height(self, root: Optional[TreeNode]) -> bool:
-        if not root:
-            return 0
-        return 1 + max(self.height(root.left), self.height(root.right))
+        return dfs(root)[1]
+
