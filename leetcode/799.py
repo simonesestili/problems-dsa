@@ -1,13 +1,11 @@
 class Solution:
-    def champagneTower(self, poured, row, col):
-        level = [poured]
-
-        while len(level) - 1 < row:
-            next_level = [0] * (len(level) + 1)
-            for i in range(len(level)):
-                rem = max(level[i] - 1, 0)
-                next_level[i] += rem / 2
-                next_level[i+1] += rem / 2
-            level = next_level
-
-        return min(level[col], 1)
+    def champagneTower(self, poured, query_row, query_glass):
+        curr = [poured]
+        for _ in range(query_row):
+            nxt = [0] * (len(curr) + 1)
+            for i, x in enumerate(curr):
+                rem = max(x - 1, 0)
+                nxt[i] += rem / 2
+                nxt[i+1] += rem / 2
+            curr = nxt
+        return min(curr[query_glass], 1)
