@@ -1,14 +1,14 @@
 class Solution:
     def sumRootToLeaf(self, root):
-        self.total = 0
+        self.ans = 0
 
-        def dfs(node, prev):
+        def dfs(node, s=0):
             if not node: return
-            curr = (prev << 1) | node.val
+            s = (s << 1) | node.val
             if not node.left and not node.right:
-                self.total += curr
-            dfs(node.left, curr)
-            dfs(node.right, curr)
+                self.ans += s
+            dfs(node.left, s)
+            dfs(node.right, s)
 
-        dfs(root, 0)
-        return self.total
+        dfs(root)
+        return self.ans
