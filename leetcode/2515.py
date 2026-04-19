@@ -1,9 +1,7 @@
 class Solution:
-    def closetTarget(self, word, target, start):
-        if target not in word: return -1
-        n = len(word)
-        l = r = start
-        for step in range(n):
-            if target in (word[l], word[r]): return step
-            l = (l - 1 + n) % n
-            r = (r + 1 + n) % n
+    def closestTarget(self, words, target, start):
+        n = len(words)
+        for d in range(n // 2 + 1):
+            if target in (words[(start+d)%n], words[(start-d)%n]):
+                return d
+        return -1
