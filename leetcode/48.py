@@ -1,10 +1,11 @@
 class Solution:
     def rotate(self, mat):
         n = len(mat)
-        for col in range(n):
-            for row in range(n // 2):
-                mat[row][col], mat[n - 1 - row][col] = mat[n - 1 - row][col], mat[row][col]
-        for row in range(n - 1):
-            for col in range(row + 1, n):
-                mat[row][col], mat[col][row] = mat[col][row], mat[row][col]
-        return mat
+
+        for c in range(n):
+            for r in range(n//2):
+                mat[r][c], mat[-r-1][c] = mat[-r-1][c], mat[r][c]
+
+        for r in range(n-1):
+            for c in range(r+1, n):
+                mat[r][c], mat[c][r] = mat[c][r], mat[r][c]
