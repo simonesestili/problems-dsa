@@ -1,15 +1,18 @@
 class Solution:
     def rotateRight(self, head, k):
-        if not k or not head: return head
+        curr, tail, n = head, head, 0
+        while curr:
+            n += 1
+            tail = curr
+            curr = curr.next
 
-        tail, curr, length = None, head, 0
-        while curr: tail, curr, length = curr, curr.next, length + 1
-        k = -k % length
+        if not n or not k%n:
+            return head
 
-        if not k: return head
+        k %= n
+        curr = head
+        for _ in range(n-k-1):
+            curr = curr.next
 
-        prev, curr = None, head
-        for _ in range(k): prev, curr = curr, curr.next
-        tail.next, prev.next = head, None
-
-        return curr
+        tail.next, head, curr.next = head, curr.next, None
+        return head
