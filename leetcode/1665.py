@@ -1,10 +1,9 @@
 class Solution:
     def minimumEffort(self, tasks):
-        tasks.sort(key=lambda task: task[0] - task[1])
-        starting = curr = 0
-        for actual, minimum in tasks:
-            if curr < minimum:
-                starting += minimum - curr
-                curr += minimum - curr
+        ans = curr = 0
+        for actual, mn in sorted(tasks, key=lambda x: x[0] - x[1]):
+            if curr < mn:
+                ans += mn - curr
+                curr = mn
             curr -= actual
-        return starting    
+        return ans
